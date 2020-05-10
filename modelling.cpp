@@ -21,10 +21,10 @@ int* spawn_processes_coming_time(unsigned int count, double intensity) {
     return time_process_distance;
 }
 
-void model_round_robin() {
+void model_round_robin(unsigned int proc_count) {
     srand(time(NULL));
-    int processes_count = 10;
-    double intensity = 0.05;
+    int processes_count = 100;
+    double intensity = 0.5;
     int* time_process_distance = spawn_processes_coming_time(processes_count, intensity);
     Task* random_processes = spawn_processes(processes_count, 1, 5, 20);
     
@@ -32,24 +32,38 @@ void model_round_robin() {
     int new_process_tick = 0;
     int j = 0;
     int total_ticks = 0;
-    bool prev_tick_active = false;
+    //bool prev_tick_active = false;
     Processor proc = Processor(queue, 3);
     Analyzer analyzer = {0, 0, processes_count};
+    
+    std::vector<Processor> processors(proc_count, proc);
+    std::vector<Analyzer> analyzers(proc_count, analyzer);
+    std::vector<bool> prev_tick_active(proc_count, false);
+    
     while (j < processes_count || !queue.empty()) {
         if (new_process_tick == 0) {
             queue.push_back(random_processes[j]);
             new_process_tick = time_process_distance[j];
             j++;
         }
-        proc.next_tick();
         total_ticks++;
-        bool curr_tick_active = proc.active;
-        if ((curr_tick_active || prev_tick_active) == false)
-            analyzer.inactivity_ticks_count++;
-        prev_tick_active = curr_tick_active;
+        
+        for (int i = 0; i < proc_count; i++) {
+            processors[i].next_tick();
+            bool curr_tick_active = processors[i].active;
+            if ((curr_tick_active || prev_tick_active[i]) == false)
+                analyzers[i].inactivity_ticks_count++;
+            prev_tick_active[i] = curr_tick_active;
+        }
         new_process_tick--;
     }
-    printf("\nFailed tasks count: %d", proc.get_failed_tasks_count());
-    printf("\nInactivity ticks count: %d", analyzer.inactivity_ticks_count);
+    for (int i = 0; i < proc_count; i++) {
+        printf("Failed tasks count: %d\n", processors[i].get_failed_tasks_count());
+        printf("Inactivity ticks count: %d\n\n", analyzers[i].inactivity_ticks_count);
+    }
     printf("\nTotal ticks count: %d", total_ticks);
+}
+
+void model_foreground_background(unsigned int proc_count) {
+    
 }
