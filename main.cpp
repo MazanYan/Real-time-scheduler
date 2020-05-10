@@ -1,15 +1,12 @@
-//#include <cstdlib>
-//#include <stdio.h>
-//#include "random_distributions.h"
-//#include "processor.h"
-//#include <algorithm>
-//#include <Python.h>
 //#include "matplotlib-cpp/matplotlibcpp.h"
 #include "modelling.h"
 
 using namespace std;
 
 int main(int argc, char** argv) {
-    model_round_robin(4);
+    printf("\n\nModelling RR:\n");
+    model_round_robin(10, 1);
+    printf("\n\nModelling FB:\n");
+    model_foreground_background(10, 10, 1);
     return 0;
 }

@@ -34,8 +34,21 @@
       <itemPath>Makefile</itemPath>
       <itemPath>MakefileMatplotlib</itemPath>
     </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>MakefileMatplotlib</itemPath>
+    </logicalFolder>
   </logicalFolder>
   <sourceRootList>
+    <Elem>matplotlib-cpp</Elem>
     <Elem>matplotlib-cpp</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -47,6 +60,9 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+        </ccTool>
       </compileType>
       <item path="input_task.cpp" ex="false" tool="1" flavor2="0">
       </item>
