@@ -15,6 +15,10 @@ double Analyzer::get_average_waiting_time() {
     return sum / waiting_time_by_task.size();
 }
 
+double Analyzer::get_inactivity_percent() {
+    return (double) inactivity_ticks_count / ticks_count;
+}
+
 void Processor::next_tick() {
     if (curr_task) {
         curr_task.left_to_deadline--;

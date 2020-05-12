@@ -6,6 +6,11 @@
 #include <thread>
 #include <mutex>
 
+/*template <typename T>
+T return_el(T el) {
+    return el;
+}*/
+
 struct Analyzer {
     int inactivity_ticks_count;
     int failed_tasks_count;
@@ -16,6 +21,7 @@ struct Analyzer {
     std::vector<int> waiting_time_by_task;
     double get_average_queue_size();
     double get_average_waiting_time();
+    double get_inactivity_percent();
 };
 
 extern std::mutex queue_mutex;
