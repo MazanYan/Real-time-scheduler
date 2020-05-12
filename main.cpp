@@ -1,5 +1,5 @@
 #include "matplotlib-cpp/matplotlibcpp.h"
-#include "modelling.h"
+#include "headers/modelling.h"
 #include <map>
 #include <algorithm>
 #include <unistd.h> 
@@ -152,41 +152,5 @@ int main(int argc, char* argv[]) {
             plot_test3(modelling, inscription);
         }
     }
-    
-    
-    
-    //Analyzer modelling_round_robin = model_round_robin(processors, intensity);
-    //Analyzer modelling_foreground_background = model_foreground_background(processors, 10, intensity);
-    
-    /*std::string inscription1("Графік залежності кількості заявок від часу очікування при фіксованій інтенсивності вхідного потоку заявок = 1. Round robin");
-    plot_test1(modelling_round_robin, inscription1);
-    
-    std::string inscription2("Графік залежності кількості заявок від часу очікування при фіксованій інтенсивності вхідного потоку заявок = 0.1. Foreground Background");*/
-    //plot_test1(modelling_foreground_background, inscription2);
-    
-    // Test 2
-    /*std::map<double, Analyzer> modelling_test2_rr = std::map<double, Analyzer>();
-    
-    for (double intensity_t2 = 0.001; intensity_t2 < 1; intensity_t2 += 0.01)
-        modelling_test2_rr[intensity_t2] = model_round_robin(processors, intensity_t2);
-    
-    std::vector<double> avg_waiting_time_rr;
-    for (std::map<double, Analyzer>::iterator it = modelling_test2_rr.begin(); it != modelling_test2_rr.end(); it++)
-        avg_waiting_time_rr.push_back(it->second.get_average_waiting_time());
-    
-    
-    std::map<double, Analyzer> modelling_test2_fb = std::map<double, Analyzer>();
-    
-    for (double intensity_t2 = 0.001; intensity_t2 < 1; intensity_t2 += 0.01)
-        modelling_test2_fb[intensity_t2] = model_foreground_background(processors, 10, intensity_t2);*/
-    
-    //plot_test2(modelling_test2_rr, "Графік залежності середнього часу очікування від інтенсивності вхідного потоку заявок. Round Robin");
-    //plot_test2(modelling_test2_fb, "Графік залежності середнього часу очікування від інтенсивності вхідного потоку заявок. Foreground Background");
-    
-    // Test 3
-    
-    //plot_test3(modelling_test2_rr, "Графік залежності проценту простою ресурсу від інтенсивності вхідного потоку заявок. Round Robin");
-    //plot_test3(modelling_test2_fb, "Графік залежності проценту простою ресурсу від інтенсивності вхідного потоку заявок. Foreground Background");
-    
     return 0;
 }

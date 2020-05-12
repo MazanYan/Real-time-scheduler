@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <stdio.h>
-#include "random_distributions.h"
-#include "processor.h"
+#include "headers/random_distributions.h"
+#include "headers/processor.h"
 #include <cstring>
 
 std::vector<Task> spawn_processes(unsigned int count, int avg_processing_time, int avg_deadline, int max_priority = 1) {

@@ -1,5 +1,5 @@
-#include "input_task.h"
-#include "random_distributions.h"
+#include "headers/input_task.h"
+#include "headers/random_distributions.h"
 
 Task::operator bool() {
     if (processing_time == 0 && left_to_deadline == 0) return false;

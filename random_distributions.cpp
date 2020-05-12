@@ -1,4 +1,4 @@
-#include "random_distributions.h"
+#include "headers/random_distributions.h"
 
 int uniform_distr_int(int min_val, int max_val) {
     return rand() % max_val + min_val;
