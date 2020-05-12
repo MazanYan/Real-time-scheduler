@@ -5,6 +5,7 @@ struct Task {
     int processing_time;
     int left_to_deadline;
     int priority;
+    int waiting_time;
     operator bool();
     Task& operator=(const Task& task);
 };

@@ -9,12 +9,7 @@
         <group>
             <file>file:/home/yan/NetBeansProjects/Scheduler/main.cpp</file>
             <file>file:/home/yan/NetBeansProjects/Scheduler/modelling.cpp</file>
-            <file>file:/home/yan/NetBeansProjects/Scheduler/Makefile</file>
             <file>file:/home/yan/NetBeansProjects/Scheduler/modelling.h</file>
-            <file>file:/home/yan/NetBeansProjects/Scheduler/input_task.cpp</file>
-            <file>file:/home/yan/NetBeansProjects/Scheduler/random_distributions.cpp</file>
-            <file>file:/home/yan/NetBeansProjects/Scheduler/input_task.h</file>
-            <file>file:/home/yan/NetBeansProjects/Scheduler/random_distributions.h</file>
             <file>file:/home/yan/NetBeansProjects/Scheduler/processor.h</file>
             <file>file:/home/yan/NetBeansProjects/Scheduler/processor.cpp</file>
         </group>

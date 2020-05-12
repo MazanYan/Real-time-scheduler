@@ -20,7 +20,7 @@ int* spawn_processes_coming_time(unsigned int count, double intensity) {
     return time_process_distance;
 }
 
-void model_round_robin(int proc_count, double intensity) {
+Analyzer model_round_robin(int proc_count, double intensity) {
     srand(time(NULL));
     int processes_count = 1000;
     int* time_process_distance = spawn_processes_coming_time(processes_count, intensity);
@@ -29,12 +29,15 @@ void model_round_robin(int proc_count, double intensity) {
     std::vector<Task> queue(0);
     int new_process_tick = 0;
     int j = 0;
-    int total_ticks = 0;
-    Processor proc = Processor(queue, 3);
-    Analyzer analyzer = {0, 0, processes_count};
-    
-    std::vector<Processor> processors(proc_count, proc);
-    std::vector<Analyzer> analyzers(proc_count, analyzer);
+    //int total_ticks = 0;
+    Analyzer analyzer = {0, 0, 0, 0, 0, 0, std::vector<int>(1, 0)};
+    Processor proc = Processor(queue, 3, analyzer);
+    std::vector<Processor> processors(0);
+    for (int i = 0; i < proc_count; i++) {
+        Analyzer analyzer = {0, 0, 0, 0, 0, 0, std::vector<int>(3, 0)};
+        processors.push_back(Processor(queue, 3, analyzer));
+    }
+    // std::vector<Analyzer> analyzers(proc_count, analyzer);
     std::vector<bool> prev_tick_active(proc_count, false);
     
     while (j < processes_count || !queue.empty()) {
@@ -43,22 +46,34 @@ void model_round_robin(int proc_count, double intensity) {
             new_process_tick = time_process_distance[j];
             j++;
         }
-        total_ticks++;
+        analyzer.ticks_count++;
+        analyzer.total_queue_size_tick += queue.size();
         
         for (int i = 0; i < proc_count; i++) {
             processors[i].next_tick();
             bool curr_tick_active = processors[i].active;
             if ((curr_tick_active || prev_tick_active[i]) == false)
-                analyzers[i].inactivity_ticks_count++;
+                processors[i].analyzer.inactivity_ticks_count++;
             prev_tick_active[i] = curr_tick_active;
         }
         new_process_tick--;
     }
-    for (int i = 0; i < proc_count; i++) {
-        printf("Failed tasks count: %d (total completed - %d)\n", processors[i].get_failed_tasks_count(), processors[i].get_completed_tasks_count());
-        printf("Inactivity ticks count: %d\n\n", analyzers[i].inactivity_ticks_count);
+    /*for (int i = 0; i < proc_count; i++) {
+        printf("Failed tasks count: %d (total completed - %d)\n", processors[i].analyzer.failed_tasks_count, processors[i].analyzer.completed_tasks_count);
+        printf("Inactivity ticks count: %d\n", processors[i].analyzer.inactivity_ticks_count);
+        printf("Average waiting time: %f\n\n", processors[i].analyzer.get_average_waiting_time());
     }
-    printf("\nTotal ticks count: %d", total_ticks);
+    printf("\nTotal ticks count: %d\n", analyzer.ticks_count);
+    printf("Average queue size: %f\n", analyzer.get_average_queue_size());*/
+    for (int i = 0; i < proc_count; i++) {
+        analyzer.completed_tasks_count += processors[i].analyzer.completed_tasks_count;
+        analyzer.failed_tasks_count += processors[i].analyzer.failed_tasks_count;
+        analyzer.inactivity_ticks_count += processors[i].analyzer.inactivity_ticks_count;
+        analyzer.waiting_time_by_task.insert(std::end(analyzer.waiting_time_by_task),
+                std::begin(processors[i].analyzer.waiting_time_by_task),
+                std::end(processors[i].analyzer.waiting_time_by_task));
+    }
+    return analyzer;
 }
 
 bool priority_queue_empty(std::vector<Task>* queue, int queue_length) {
@@ -69,7 +84,7 @@ bool priority_queue_empty(std::vector<Task>* queue, int queue_length) {
     return true;
 }
 
-void model_foreground_background(int proc_count, int max_priority, double intensity) {
+Analyzer model_foreground_background(int proc_count, int max_priority, double intensity) {
     srand(time(NULL));
     int processes_count = 1000;
     int* time_process_distance = spawn_processes_coming_time(processes_count, intensity);
@@ -81,9 +96,9 @@ void model_foreground_background(int proc_count, int max_priority, double intens
     
     int new_process_tick = 0;
     int j = 0;
-    int total_ticks = 0;
-    ForegroundBackgroundProcessor proc = ForegroundBackgroundProcessor(queue, max_priority, 3);
-    Analyzer analyzer = {0, 0, processes_count};
+    //int total_ticks = 0;
+    Analyzer analyzer = {0, 0, 0, 0, 0, 0, std::vector<int>(0)};
+    ForegroundBackgroundProcessor proc = ForegroundBackgroundProcessor(queue, max_priority, 3, analyzer);
     
     std::vector<ForegroundBackgroundProcessor> processors(proc_count, proc);
     std::vector<Analyzer> analyzers(proc_count, analyzer);
@@ -96,20 +111,34 @@ void model_foreground_background(int proc_count, int max_priority, double intens
             new_process_tick = time_process_distance[j];
             j++;
         }
-        total_ticks++;
+        analyzer.ticks_count++;
+        for (int i = 0; i < proc_count; i++) {
+            analyzer.total_queue_size_tick += queue[i].size();
+        }
         
         for (int i = 0; i < proc_count; i++) {
             processors[i].next_tick();
             bool curr_tick_active = processors[i].active;
             if ((curr_tick_active || prev_tick_active[i]) == false)
-                analyzers[i].inactivity_ticks_count++;
+                processors[i].analyzer.inactivity_ticks_count++;
             prev_tick_active[i] = curr_tick_active;
         }
         new_process_tick--;
     }
-    for (int i = 0; i < proc_count; i++) {
-        printf("Failed tasks count: %d (total completed - %d)\n", processors[i].get_failed_tasks_count(), processors[i].get_completed_tasks_count());
-        printf("Inactivity ticks count: %d\n\n", analyzers[i].inactivity_ticks_count);
+    /*for (int i = 0; i < proc_count; i++) {
+        printf("Failed tasks count: %d (total completed - %d)\n", processors[i].analyzer.failed_tasks_count, processors[i].analyzer.completed_tasks_count);
+        printf("Inactivity ticks count: %d\n\n", processors[i].analyzer.inactivity_ticks_count);
+        printf("Average waiting time: %f\n\n", processors[i].analyzer.get_average_waiting_time());
     }
-    printf("\nTotal ticks count: %d", total_ticks);
+    printf("\nTotal ticks count: %d\n", analyzer.ticks_count);
+    printf("Average queue size: %f\n", analyzer.get_average_queue_size());*/
+    for (int i = 0; i < proc_count; i++) {
+        analyzer.completed_tasks_count += processors[i].analyzer.completed_tasks_count;
+        analyzer.failed_tasks_count += processors[i].analyzer.failed_tasks_count;
+        analyzer.inactivity_ticks_count += processors[i].analyzer.inactivity_ticks_count;
+        analyzer.waiting_time_by_task.insert(std::end(analyzer.waiting_time_by_task),
+                std::begin(processors[i].analyzer.waiting_time_by_task),
+                std::end(processors[i].analyzer.waiting_time_by_task));
+    }
+    return analyzer;
 }

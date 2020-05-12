@@ -5,7 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>input_task.h</itemPath>
-      <itemPath>matplotlib-cpp/modelling.h</itemPath>
+      <itemPath>modelling.h</itemPath>
       <itemPath>processor.h</itemPath>
       <itemPath>random_distributions.h</itemPath>
     </logicalFolder>
@@ -70,9 +70,9 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="matplotlib-cpp/modelling.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="modelling.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="modelling.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="processor.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -109,9 +109,9 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="matplotlib-cpp/modelling.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="modelling.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="modelling.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="processor.cpp" ex="false" tool="1" flavor2="0">
       </item>
