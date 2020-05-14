@@ -2,7 +2,6 @@
 #include <vector>
 #include <map>
 
-
 #ifndef MODELLING_H
 #define MODELLING_H
 

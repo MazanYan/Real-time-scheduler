@@ -9,9 +9,6 @@ double Analyzer::get_average_waiting_time() {
     double sum = 0;
     for (int x : waiting_time_by_task)
         sum += (double) x;
-    /*std::for_each(waiting_time_by_task.begin(), waiting_time_by_task.end(), [&] (int x) {
-        sum += (double) x / waiting_time_by_task.size();
-    });*/
     return sum / waiting_time_by_task.size();
 }
 
@@ -62,10 +59,6 @@ void Processor::next_tick() {
     }
 }
 
-/*int Processor::get_failed_tasks_count() {
-    return failed_tasks_count;
-}*/
-
 void Processor::set_task(Task& task) {
     curr_task = task;
     time_quantum_left = time_quantum;
@@ -76,26 +69,19 @@ Processor::Processor(std::vector<Task>& queue, int time_quantum, Analyzer& analy
     this->time_quantum = time_quantum;
     this->analyzer = analyzer;
     curr_task = {0, 0, 0};
-    //this->analyzer.waiting_time_by_task = std::vector<int>(0);
 }
 
 Processor::Processor() {
     this->queue = nullptr;
     this->time_quantum = 0;
-    //this->analyzer = NULL;
     curr_task = {0, 0, 0};
 }
-
-/*int Processor::get_completed_tasks_count() {
-    return analyzer->completed_tasks_count;
-}*/
 
 ForegroundBackgroundProcessor::ForegroundBackgroundProcessor(std::vector<Task>* queue, int priorities_count, int time_quantum, Analyzer& analyzer) : Processor() {
     this->queue = queue;
     this->time_quantum = time_quantum;
     this->priorities_total = priorities_count;
     this->analyzer = analyzer;
-    //failed_tasks_count = 0;
     curr_task = {0, 0, 0};
     this->analyzer.waiting_time_by_task = std::vector<int>(0);
 }

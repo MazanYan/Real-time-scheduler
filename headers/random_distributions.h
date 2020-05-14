@@ -12,4 +12,4 @@ int exponential_distr(double lambda);
 
 int poisson_distr(double lambda);
 
-#endif
+#endif /* RANDOM_DISTRIBUTIONS_H */

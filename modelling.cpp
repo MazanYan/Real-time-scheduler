@@ -1,17 +1,10 @@
-#include <cstdlib>
-#include <stdio.h>
 #include "headers/random_distributions.h"
 #include "headers/processor.h"
-#include <cstring>
 
 std::vector<Task> spawn_processes(unsigned int count, int avg_processing_time, int avg_deadline, int max_priority = 1) {
     std::vector<Task> random_processes;
     for (int i = 0; i < count; i++)
         random_processes.push_back(generate_random_task(avg_processing_time, avg_deadline, max_priority));
-    /*for (int i = 0; i < count; i++) {
-        Task random_proc = generate_random_task(avg_processing_time, avg_deadline, max_priority);
-        random_processes[i] = random_proc;
-    }*/
     return random_processes;
 }
 

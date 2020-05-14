@@ -3,13 +3,6 @@
 
 #include <vector>
 #include "input_task.h"
-#include <thread>
-#include <mutex>
-
-/*template <typename T>
-T return_el(T el) {
-    return el;
-}*/
 
 struct Analyzer {
     int inactivity_ticks_count;
@@ -24,7 +17,6 @@ struct Analyzer {
     double get_inactivity_percent();
 };
 
-extern std::mutex queue_mutex;
 
 class Processor {
 protected:
@@ -32,16 +24,12 @@ protected:
     int time_quantum;
     int time_quantum_left;
     Task curr_task;
-    //int failed_tasks_count;
-    //int completed_tasks_count;
 public:
     Processor(std::vector<Task>& queue, int time_quantum, Analyzer& analyzer);
     Processor();
     virtual void next_tick();
     void set_task(Task& task);
     bool active;
-    //int get_failed_tasks_count();
-    //int get_completed_tasks_count();
     Analyzer analyzer;
 };
 
@@ -56,4 +44,4 @@ public:
     void next_tick() override;
 };
 
-#endif
+#endif /* PROCESSOR_H */
